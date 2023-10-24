@@ -1,5 +1,8 @@
 package com.o1b4.serverquota.entity;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -9,26 +12,28 @@ enum DurationKind {
 }
 
 @Entity
-@Table(name = "reservationRoom")
+@Getter
+@ToString
+@Table(name = "reservationroom")
 public class ReservationRoom {
     @Id
     private Long roomId;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userid")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "teamId")
+    @JoinColumn(name = "teamid")
     private Team team;
 
-    @Column(name = "roomName", length = 30, nullable = false)
+    @Column(name = "roomname", length = 30, nullable = false)
     private String roomName;
 
-    @Column(name = "meetingKind", length = 255)
+    @Column(name = "meetingkind", length = 255)
     private String meetingKind;
 
-    @Column(name = "meetingLocation", length = 255)
+    @Column(name = "meetinglocation", length = 255)
     private String meetingLocation;
 
     @Column(name = "rangeStart", nullable = false)
@@ -49,4 +54,22 @@ public class ReservationRoom {
 
     @Column(name = "roomUrl", length = 30, nullable = false)
     private String roomUrl = "meeting" + (int)(Math.random() * 99 + 1);
+
+    public ReservationRoom() {
+    }
+
+    public ReservationRoom(Long roomId, User user, Team team, String roomName, String meetingKind, String meetingLocation, LocalDate rangeStart, LocalDate rangeEnd, DurationKind durationKind, int duration, String roomDescription, String roomUrl) {
+        this.roomId = roomId;
+        this.user = user;
+        this.team = team;
+        this.roomName = roomName;
+        this.meetingKind = meetingKind;
+        this.meetingLocation = meetingLocation;
+        this.rangeStart = rangeStart;
+        this.rangeEnd = rangeEnd;
+        this.durationKind = durationKind;
+        this.duration = duration;
+        this.roomDescription = roomDescription;
+        this.roomUrl = roomUrl;
+    }
 }
