@@ -1,14 +1,17 @@
 package com.o1b4.serverquota.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "team")
@@ -29,11 +32,7 @@ public class Team {
     @Column(name = "teamdescription", length = 255)
     private String teamDescription;
 
-    public Team(Long teamId, String teamName, String teamProfileImage, String teamUrl, String teamDescription) {
-        this.teamId = teamId;
-        this.teamName = teamName;
-        this.teamProfileImage = teamProfileImage;
-        this.teamUrl = teamUrl;
-        this.teamDescription = teamDescription;
-    }
+    @OneToMany(mappedBy = "teamId")
+    private List<BelongTeam> belongTeams;
+
 }
