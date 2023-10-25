@@ -15,10 +15,13 @@ public class MainTeamDTO {
 
     private String teamUrl;
 
+    private String role;
+
     @Builder
-    public MainTeamDTO(String teamName, String teamProfileImage, String teamUrl) {
+    public MainTeamDTO(String teamName, String teamProfileImage, String teamUrl, String role) {
         this.teamName = teamName;
         this.teamProfileImage = teamProfileImage;
         this.teamUrl = teamUrl;
+        this.role = role;
     }
 }

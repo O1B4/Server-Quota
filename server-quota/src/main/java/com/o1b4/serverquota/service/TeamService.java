@@ -32,6 +32,7 @@ public class TeamService {
                 .teamProfileImage(team.getTeamProfileImage())
                 .teamName(team.getTeamName())
                 .teamUrl(team.getTeamUrl())
+                .role(String.valueOf(belongTeam.getUserRole()))
                 .build();
     }
 }
