@@ -7,11 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
-    // userId로 속한 Team 하나만 조회 쿼리문
-    @Query(value = "SELECT t.teamId, t.teamname, t.teamprofileimage, t.teamurl, t.teamdescription " +
-            "FROM team t " +
-            "JOIN belongteam b, user u " +
-            "WHERE t.teamid = b.teamid and u.userid = b.userid " +
-            "and u.userid = ?1 LIMIT 1", nativeQuery = true)
-    Team findTeamByUserId(@Param("userId") long userId);
+    // teamId에 속한 Team 하나만 조회 쿼리문
+    Team findFirstByTeamId(@Param("teamid") long teamId);
 }

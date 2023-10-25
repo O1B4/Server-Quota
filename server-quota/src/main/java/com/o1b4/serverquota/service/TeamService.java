@@ -1,30 +1,37 @@
 package com.o1b4.serverquota.service;
 
-import com.o1b4.serverquota.dto.TeamDTO;
+import com.o1b4.serverquota.dto.response.MainTeamDTO;
+import com.o1b4.serverquota.entity.BelongTeam;
 import com.o1b4.serverquota.entity.Team;
+import com.o1b4.serverquota.exception.CustomApiException;
+import com.o1b4.serverquota.repository.BelongTeamRepository;
 import com.o1b4.serverquota.repository.TeamRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
 
 @Service
 public class TeamService {
     private final TeamRepository teamRepository;
 
-    private final ModelMapper modelMapper;
+    private final BelongTeamRepository belongTeamRepository;
 
-    public TeamService(TeamRepository teamRepository, ModelMapper modelMapper) {
+    public TeamService(TeamRepository teamRepository, BelongTeamRepository belongTeamRepository) {
         this.teamRepository = teamRepository;
-        this.modelMapper = modelMapper;
+        this.belongTeamRepository = belongTeamRepository;
     }
 
-    public TeamDTO findTeamByUserId(long userId) {
-        Team team = teamRepository.findTeamByUserId(userId);
+    public MainTeamDTO findTeamByUserId(long userId) {
 
-        // 조회 결과 없을 시 빈 teamDTO 반환
-        if (team == null) {
-            return new TeamDTO();
-        }
-        return  modelMapper.map(team, TeamDTO.class);
+        // 해당 user의 첫 번째 소속팀의 Team
+        BelongTeam belongTeam = belongTeamRepository.findFirstByUserId(userId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "소속된 팀이 없습니다."));
+
+        Team team = teamRepository.findFirstByTeamId(belongTeam.getTeamId());
+
+        return MainTeamDTO.builder()
+                .teamProfileImage(team.getTeamProfileImage())
+                .teamName(team.getTeamName())
+                .teamUrl(team.getTeamUrl())
+                .build();
     }
-
 }
