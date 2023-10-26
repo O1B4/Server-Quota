@@ -41,4 +41,19 @@ public class TeamController {
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ResponseMessage> findAllBelongTeams(@PathVariable long userId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        List<String> Teams = teamService.findTeamsByUserId(userId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("Teams", Teams);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
 }
