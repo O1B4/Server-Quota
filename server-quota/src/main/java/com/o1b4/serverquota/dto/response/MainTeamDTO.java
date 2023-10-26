@@ -3,6 +3,7 @@ package com.o1b4.serverquota.dto.response;
 import lombok.*;
 
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor
 public class MainTeamDTO {
