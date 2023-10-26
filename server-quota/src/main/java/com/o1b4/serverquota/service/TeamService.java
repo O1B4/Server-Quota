@@ -65,4 +65,23 @@ public class TeamService {
                 )
                 .collect(Collectors.toList());
     }
+
+    public List<String> findTeamsByUserId(long userId) {
+
+        List<BelongTeam> belongTeams = belongTeamRepository.findByUserId(userId);
+
+        // userID에 해당하는 Team의 id list
+        List<Long> teamIdList = belongTeams.stream()
+                .map(BelongTeam::getTeamId)
+                .collect(Collectors.toList());
+
+        // 팀 이름 리스트
+        return teamIdList.stream()
+                .map(
+                        teamId -> teamRepository.findTeamByTeamId(teamId)
+                                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀을 찾지 못했습니다."))
+                                .getTeamName()
+                )
+                .collect(Collectors.toList());
+    }
 }

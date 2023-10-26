@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface BelongTeamRepository extends JpaRepository<BelongTeam, Long> {
 
     // userId로 소속되어 있는 팀 찾기
-    Optional<BelongTeam> findFirstByUserId(Long userId);
+    Optional<BelongTeam> findFirstByUserId(long userId);
 
     List<BelongTeam> findByTeamId(long teamId);
+
+    List<BelongTeam> findByUserId(long userId);
 }
