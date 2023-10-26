@@ -1,6 +1,11 @@
 package com.o1b4.serverquota.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 enum UserRole {
     ADMIN,
@@ -9,19 +14,24 @@ enum UserRole {
 }
 
 @Entity
-@Table(name = "belongTeam")
-public class BelongTeam {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@IdClass(BelongTeamId.class)
+@Table(name = "belongteam")
+public class BelongTeam implements Serializable{
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "teamId", nullable = false)
-    private Team team;
+    @Column(name = "userid")
+    private Long userId;
+
+    @Id
+    @Column(name = "teamid")
+    private Long teamId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "userRole", length = 20, nullable = false)
+    @Column(name = "userrole", length = 20, nullable = false)
     private UserRole userRole = UserRole.ADMIN;
+
 }
+
