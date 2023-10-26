@@ -20,7 +20,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
-    private RoomService roomService;
+
+    private final RoomService roomService;
 
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
