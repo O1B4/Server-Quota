@@ -2,6 +2,7 @@ package com.o1b4.serverquota.controller;
 
 import com.o1b4.serverquota.dto.response.MainReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.ReservationRoomDTO;
+import com.o1b4.serverquota.dto.response.SimpleReservationRoomDTO;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.RoomService;
 import org.springframework.http.HttpHeaders;
@@ -68,6 +69,21 @@ public class RoomController {
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isUrlUsable", isUrlUsable);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/simple/{roomId}")
+    public ResponseEntity<ResponseMessage> findSimpleReservationRoom(@PathVariable long roomId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        SimpleReservationRoomDTO room  = roomService.findSimpleReservationRoom(roomId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservationRoom", room);
 
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
 

@@ -3,19 +3,21 @@ package com.o1b4.serverquota.service;
 import com.o1b4.serverquota.dto.response.AvailableTimeDTO;
 import com.o1b4.serverquota.dto.response.MainReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.ReservationRoomDTO;
+import com.o1b4.serverquota.dto.response.SimpleReservationRoomDTO;
 import com.o1b4.serverquota.entity.AvailableTime;
 import com.o1b4.serverquota.entity.NotAvailableDate;
 import com.o1b4.serverquota.entity.ReservationRoom;
+import com.o1b4.serverquota.entity.User;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.repository.AvailableTimeRepository;
 import com.o1b4.serverquota.repository.NotAvailableDateRepository;
 import com.o1b4.serverquota.repository.RoomRepository;
+import com.o1b4.serverquota.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +26,14 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     private final AvailableTimeRepository availableTimeRepository;
-
+    private final UserRepository userRepository;
     private final NotAvailableDateRepository notAvailableDateRepository;
 
 
-    public RoomService(RoomRepository roomRepository, AvailableTimeRepository availableTimeRepository, NotAvailableDateRepository notAvailableDateRepository) {
+    public RoomService(RoomRepository roomRepository, AvailableTimeRepository availableTimeRepository, UserRepository userRepository, NotAvailableDateRepository notAvailableDateRepository) {
         this.roomRepository = roomRepository;
         this.availableTimeRepository = availableTimeRepository;
+        this.userRepository = userRepository;
         this.notAvailableDateRepository = notAvailableDateRepository;
     }
 
@@ -96,5 +99,23 @@ public class RoomService {
     public boolean checkRoomUrl(String roomUrl) {
 
         return !roomRepository.existsByRoomUrl(roomUrl);
+    }
+
+    public SimpleReservationRoomDTO findSimpleReservationRoom(long roomId) {
+
+        ReservationRoom room = roomRepository.findReservationRoomByRoomId(roomId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 예약룸이 조회되지 않습니다."));
+
+        // 예약 룸 만든 회원 조회
+        User user = userRepository.findUserByUserId(room.getUser().getUserId())
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "예약을 만든 회원이 존재하지 않습니다."));
+
+        return SimpleReservationRoomDTO.builder()
+                .advisorName(user.getUserName())
+                .reservationName(room.getRoomName())
+                .duration(room.getDuration())
+                .meetingLocation(room.getMeetingLocation())
+                .roomDescription(room.getRoomDescription())
+                .build();
     }
 }
