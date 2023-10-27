@@ -1,6 +1,8 @@
 package com.o1b4.serverquota.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,21 +12,19 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "notavailabledate")
-public class NotAvailableDate implements Serializable {
+public class NotAvailableDate{
+
     @Id
-    @ManyToOne
-    @JoinColumn(name="roomid")
-    private ReservationRoom room;
+    @Column(name = "dateid")
+    private long dateId;
+
+    @Column(name = "roomid")
+    private long roomId;
 
     @Column(name = "excludeddate")
     private LocalDate excludedDate;
 
-    public NotAvailableDate() {
-    }
-
-    public NotAvailableDate(ReservationRoom room, LocalDate excludedDate) {
-        this.room = room;
-        this.excludedDate = excludedDate;
-    }
 }
