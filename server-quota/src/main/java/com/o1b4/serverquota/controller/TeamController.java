@@ -7,10 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -56,4 +53,20 @@ public class TeamController {
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/check-team-url/{teamUrl}")
+    public ResponseEntity<ResponseMessage> checkIfUrlIsUsable(@PathVariable String teamUrl) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        boolean isUrlUsable = teamService.checkIfUrlIsUsable(teamUrl);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isUrlUsable", isUrlUsable);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
 }

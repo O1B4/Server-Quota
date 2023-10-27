@@ -11,5 +11,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     // teamId에 속한 Team 하나만 조회 쿼리문
     Team findFirstByTeamId(@Param("teamid") long teamId);
 
-    Optional<Team> findTeamByTeamId(Long user);
+    Optional<Team> findTeamByTeamId(Long teamId);
+
+    Boolean existsByTeamUrl(String url);
 }

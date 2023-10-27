@@ -1,6 +1,7 @@
 package com.o1b4.serverquota.service;
 
 import com.o1b4.serverquota.dto.response.MainTeamDTO;
+import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
 import com.o1b4.serverquota.entity.BelongTeam;
 import com.o1b4.serverquota.entity.Team;
@@ -83,5 +84,10 @@ public class TeamService {
                                 .getTeamName()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkIfUrlIsUsable(String url) {
+
+        return !teamRepository.existsByTeamUrl(url);
     }
 }
