@@ -6,13 +6,16 @@ import com.o1b4.serverquota.dto.response.ReservationRoomDTO;
 import com.o1b4.serverquota.entity.AvailableTime;
 import com.o1b4.serverquota.entity.NotAvailableDate;
 import com.o1b4.serverquota.entity.ReservationRoom;
+import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.repository.AvailableTimeRepository;
 import com.o1b4.serverquota.repository.NotAvailableDateRepository;
 import com.o1b4.serverquota.repository.RoomRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +55,9 @@ public class RoomService {
 
     public ReservationRoomDTO findReservationRoomByRoomId(long roomId) {
 
-        ReservationRoom room = roomRepository.findReservationRoomByRoomId(roomId);
+        ReservationRoom room = roomRepository.findReservationRoomByRoomId(roomId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 예약 룸은 존재하지 않습니다!"));
+
         List<AvailableTime> availableTimes = availableTimeRepository.getAvailableTimesByRoomId(roomId);
         List<NotAvailableDate> NotAvailableDates = notAvailableDateRepository.findAllByRoomId(roomId);
 
