@@ -58,4 +58,19 @@ public class RoomController {
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/check-room-url/{roomUrl}")
+    public ResponseEntity<ResponseMessage> checkRoomUrl(@PathVariable String roomUrl) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        boolean isUrlUsable  = roomService.checkRoomUrl(roomUrl);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isUrlUsable", isUrlUsable);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
 }
