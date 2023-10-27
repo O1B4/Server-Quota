@@ -102,4 +102,11 @@ public class TeamService {
                 .teamUrl(team.getTeamUrl())
                 .build();
     }
+
+    public String findTeamUrl(long teamId) {
+        Team team = teamRepository.findTeamByTeamId(teamId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀은 조회되지 않습니다."));
+
+        return team.getTeamUrl();
+    }
 }
