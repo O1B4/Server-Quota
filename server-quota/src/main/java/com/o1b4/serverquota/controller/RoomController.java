@@ -1,6 +1,7 @@
 package com.o1b4.serverquota.controller;
 
 import com.o1b4.serverquota.dto.response.MainReservationRoomDTO;
+import com.o1b4.serverquota.dto.response.ReservationRoomDTO;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.RoomService;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ public class RoomController {
     }
 
     // teamID로 해당되는 모든 예약 룸 정보 조회
-    @GetMapping("/{teamId}")
+    @GetMapping("/team/{teamId}")
     public ResponseEntity<ResponseMessage> findReservationRoom(@PathVariable long teamId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
@@ -37,6 +38,21 @@ public class RoomController {
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservationRooms", rooms);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/{roomId}")
+    public ResponseEntity<ResponseMessage> findReservationRoomByRoomId(@PathVariable long roomId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ReservationRoomDTO room  = roomService.findReservationRoomByRoomId(roomId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservationRoom", room);
 
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
 
