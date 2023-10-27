@@ -30,4 +30,9 @@ public class UserService {
                 .userProfileImage(user.getUserProfileImage())
                 .build();
     }
+
+    public boolean checkIfUserExistsByEmail(String email) {
+
+        return userRepository.existsByUserEmail(email);
+    }
 }
