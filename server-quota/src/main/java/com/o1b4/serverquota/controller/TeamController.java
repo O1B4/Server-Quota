@@ -1,5 +1,6 @@
 package com.o1b4.serverquota.controller;
 
+import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.TeamService;
@@ -63,6 +64,22 @@ public class TeamController {
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isUrlUsable", isUrlUsable);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    // teamID로 팀 정보 불러오기
+    @GetMapping("/info/{teamId}")
+    public ResponseEntity<ResponseMessage> findTeam(@PathVariable long teamId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        RolelessMainTeamDTO team = teamService.findTeamByTeamId(teamId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("team", team);
 
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
 
