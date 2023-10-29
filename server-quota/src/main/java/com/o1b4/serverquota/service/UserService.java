@@ -1,6 +1,7 @@
 package com.o1b4.serverquota.service;
 
 import com.o1b4.serverquota.dto.UserDTO;
+import com.o1b4.serverquota.dto.request.RegisterMemberDTO;
 import com.o1b4.serverquota.entity.User;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.repository.UserRepository;
@@ -34,5 +35,17 @@ public class UserService {
     public boolean checkIfUserExistsByEmail(String email) {
 
         return userRepository.existsByUserEmail(email);
+    }
+
+    @Transactional
+    public void RegisterMember(RegisterMemberDTO registerMember) {
+
+        User registerUser = User.builder()
+                .userName(registerMember.getUserName())
+                .userEmail(registerMember.getUserEmail())
+                .userProfileImage(registerMember.getUserProfileImage())
+                .build();
+
+        userRepository.save(registerUser);
     }
 }

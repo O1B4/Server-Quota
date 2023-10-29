@@ -1,9 +1,6 @@
 package com.o1b4.serverquota.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,4 +30,10 @@ public class User {
     @OneToMany(mappedBy = "userId")
     private List<BelongTeam> belongTeams;
 
+    @Builder
+    public User(String userEmail, String userName, String userProfileImage) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userProfileImage = userProfileImage;
+    }
 }
