@@ -1,10 +1,9 @@
 package com.o1b4.serverquota.controller;
 
 import com.o1b4.serverquota.dto.request.CreateTeamDTO;
-import com.o1b4.serverquota.dto.request.RegisterMemberDTO;
+import com.o1b4.serverquota.dto.request.InvitationDTO;
 import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
-import com.o1b4.serverquota.entity.Team;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.TeamService;
@@ -126,4 +125,27 @@ public class TeamController {
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
     }
 
+    @PostMapping("/invitation")
+    public ResponseEntity<ResponseMessage> teamInvitation(@RequestBody InvitationDTO invitation) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            String role = String.valueOf(teamService.teamInvitation(invitation));
+            responseMessage.setMessage("유저 초대 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+            responseMap.put("userRole", role);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
+    }
 }

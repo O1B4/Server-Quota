@@ -1,11 +1,14 @@
 package com.o1b4.serverquota.service;
 
 import com.o1b4.serverquota.dto.request.CreateTeamDTO;
+import com.o1b4.serverquota.dto.request.InvitationDTO;
+import com.o1b4.serverquota.dto.response.InvitedUserDTO;
 import com.o1b4.serverquota.dto.response.MainTeamDTO;
 import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
 import com.o1b4.serverquota.entity.BelongTeam;
 import com.o1b4.serverquota.entity.Team;
+import com.o1b4.serverquota.entity.User;
 import com.o1b4.serverquota.entity.UserRole;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.repository.BelongTeamRepository;
@@ -133,5 +136,24 @@ public class TeamService {
                 .build();
 
         belongTeamRepository.save(belongTeam);
+    }
+
+    @Transactional
+    public UserRole teamInvitation(InvitationDTO invitation) {
+
+        User user = userRepository.findUserByUserEmail(invitation.getEmail())
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 이메일의 회원은 없습니다."));
+
+        UserRole role = invitation.isAdvisor() ? UserRole.ADVISOR : UserRole.MEMBER;
+
+        BelongTeam belongTeam = BelongTeam.builder()
+                                .teamId(invitation.getTeamId())
+                                .userId(user.getUserId())
+                                .userRole(role)
+                                .build();
+
+            BelongTeam belong = belongTeamRepository.save(belongTeam);
+
+            return belong.getUserRole();
     }
 }
