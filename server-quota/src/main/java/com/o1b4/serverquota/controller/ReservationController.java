@@ -1,6 +1,7 @@
 package com.o1b4.serverquota.controller;
 
-import com.o1b4.serverquota.dto.ReservationDTO;
+import com.o1b4.serverquota.dto.request.RequestReservationDTO;
+import com.o1b4.serverquota.dto.response.ReservationDTO;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.ReservationService;
 import org.springframework.http.HttpHeaders;
@@ -51,6 +52,22 @@ public class ReservationController {
         responseMap.put("reservations", reservations);
 
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ResponseMessage> CreateReservation(@RequestBody RequestReservationDTO reservation) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservation", reservation);
+
+        reservationService.CreateReservation(reservation);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 생성 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }

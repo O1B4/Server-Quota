@@ -1,4 +1,4 @@
-package com.o1b4.serverquota.dto;
+package com.o1b4.serverquota.dto.request;
 
 import lombok.*;
 
@@ -9,13 +9,15 @@ import java.time.LocalTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ReservationDTO {
+public class RequestReservationDTO {
+
+    private long roomId;
+
+    private long userId;
 
     private LocalDate reservDate;
 
     private LocalTime reservTime;
-
-    private String userName;
 
     private String reservName;
 
@@ -24,8 +26,9 @@ public class ReservationDTO {
     private String reservMemo;
 
     @Builder
-    public ReservationDTO(String userName, LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
-        this.userName = userName;
+    public RequestReservationDTO(long roomId, long userId, LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
+        this.roomId = roomId;
+        this.userId = userId;
         this.reservDate = reservDate;
         this.reservTime = reservTime;
         this.reservName = reservName;
