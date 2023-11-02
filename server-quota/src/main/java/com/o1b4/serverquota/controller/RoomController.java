@@ -1,7 +1,8 @@
 package com.o1b4.serverquota.controller;
 
+import com.o1b4.serverquota.dto.request.RequestReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.MainReservationRoomDTO;
-import com.o1b4.serverquota.dto.response.ReservationRoomDTO;
+import com.o1b4.serverquota.dto.response.ResponseReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.SimpleReservationRoomDTO;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.RoomService;
@@ -9,10 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -50,7 +48,7 @@ public class RoomController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
-        ReservationRoomDTO room  = roomService.findReservationRoomByRoomId(roomId);
+        ResponseReservationRoomDTO room  = roomService.findReservationRoomByRoomId(roomId);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservationRoom", room);
@@ -86,6 +84,22 @@ public class RoomController {
         responseMap.put("reservationRoom", room);
 
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ResponseMessage> CreateReserveRoom(@RequestBody RequestReservationRoomDTO room) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservationRoom", room);
+
+        roomService.CreateReserveRoom(room);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 룸 생성 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
