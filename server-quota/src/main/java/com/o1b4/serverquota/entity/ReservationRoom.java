@@ -66,4 +66,16 @@ public class ReservationRoom {
         this.roomDescription = roomDescription;
         this.roomUrl = roomUrl;
     }
+
+    public void modifyRoom(String roomName, String meetingKind, String meetingLocation, LocalDate rangeStart, LocalDate rangeEnd, DurationKind durationKind, int duration, String roomDescription, String roomUrl) {
+        this.roomName = roomName;
+        this.meetingKind = meetingKind;
+        this.meetingLocation = meetingLocation;
+        this.rangeStart = rangeStart;
+        this.rangeEnd = rangeEnd;
+        this.durationKind = durationKind;
+        this.duration = duration;
+        this.roomDescription = roomDescription;
+        this.roomUrl = roomUrl;
+    }
 }

@@ -146,7 +146,7 @@ public class RoomService {
                 .build();
 
         ReservationRoom CreatedRoom = roomRepository.save(reservationRoom);
-        System.out.println(CreatedRoom.getRoomId());
+
         availableTimeRepository.saveAll(room.getAvailableTime()
                 .stream()
                 .map(time -> (
@@ -163,6 +163,54 @@ public class RoomService {
                 .stream()
                 .map(date -> (NotAvailableDate.builder()
                         .roomId(CreatedRoom.getRoomId())
+                        .excludedDate(date))
+                        .build())
+                .collect(Collectors.toList())
+        );
+
+    }
+
+    public void modifyRoom(long roomId, RequestReservationRoomDTO room) {
+
+        ReservationRoom reservationRoom = roomRepository.findReservationRoomByRoomId(roomId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 예약룸이 조회되지 않습니다."));
+
+        List<AvailableTime> availableTime = availableTimeRepository.getAvailableTimesByRoomId(roomId);
+        availableTimeRepository.deleteAll(availableTime);
+
+        List<NotAvailableDate> notAvailableDate = notAvailableDateRepository.findAllByRoomId(roomId);
+        notAvailableDateRepository.deleteAll(notAvailableDate);
+
+        reservationRoom.modifyRoom(
+          room.getRoomName(),
+                room.getMeetingKind(),
+                room.getMeetingLocation(),
+                room.getRangeStart(),
+                room.getRangeEnd(),
+                DurationKind.valueOf(room.getDurationKind()),
+                room.getDuration(),
+                room.getRoomDescription(),
+                room.getRoomUrl()
+        );
+
+        roomRepository.save(reservationRoom);
+
+        availableTimeRepository.saveAll(room.getAvailableTime()
+                .stream()
+                .map(time -> (
+                                AvailableTime.builder()
+                                        .roomId(roomId)
+                                        .wDay(time.getwDay())
+                                        .startTime(time.getStartTime())
+                                        .endTime(time.getEndTime())
+                                        .build()
+                        )
+                ).collect(Collectors.toList()));
+
+        notAvailableDateRepository.saveAll(room.getExcludeDate()
+                .stream()
+                .map(date -> (NotAvailableDate.builder()
+                        .roomId(roomId)
                         .excludedDate(date))
                         .build())
                 .collect(Collectors.toList())
