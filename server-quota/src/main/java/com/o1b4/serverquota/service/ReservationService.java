@@ -81,4 +81,20 @@ public class ReservationService {
 
         reservationRepository.save(BuiltReservation);
     }
+
+    @Transactional
+    public void modifyReservation(long reservId, RequestReservationDTO reservation) {
+        Reservation modReservation = reservationRepository.findReservationByReservId(reservId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "예약이 없습니다."));
+
+        modReservation.modifyReservation(
+                reservation.getReservDate(),
+                reservation.getReservTime(),
+                reservation.getReservName(),
+                reservation.getReservEmail(),
+                reservation.getReservMemo()
+        );
+
+        reservationRepository.save(modReservation);
+    }
 }

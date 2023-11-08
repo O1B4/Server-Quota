@@ -35,4 +35,12 @@ public class RequestReservationDTO {
         this.reservEmail = reservEmail;
         this.reservMemo = reservMemo;
     }
+
+    public RequestReservationDTO(LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
+        this.reservDate = reservDate;
+        this.reservTime = reservTime;
+        this.reservName = reservName;
+        this.reservEmail = reservEmail;
+        this.reservMemo = reservMemo;
+    }
 }

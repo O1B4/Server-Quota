@@ -50,4 +50,12 @@ public class Reservation {
         this.reservEmail = reservEmail;
         this.reservMemo = reservMemo;
     }
+
+    public void modifyReservation(LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
+        this.reservDate = reservDate;
+        this.reservTime = reservTime;
+        this.reservName = reservName;
+        this.reservEmail = reservEmail;
+        this.reservMemo = reservMemo;
+    }
 }

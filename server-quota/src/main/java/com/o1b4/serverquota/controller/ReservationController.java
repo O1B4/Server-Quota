@@ -72,4 +72,18 @@ public class ReservationController {
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
 
+    @PutMapping("/{reservId}")
+    public ResponseEntity<ResponseMessage> modifyReservation(@PathVariable long reservId, @RequestBody RequestReservationDTO reservation) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        reservationService.modifyReservation(reservId, reservation);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 수정 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
 }
