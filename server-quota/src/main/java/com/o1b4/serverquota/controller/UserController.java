@@ -1,6 +1,7 @@
 package com.o1b4.serverquota.controller;
 
 import com.o1b4.serverquota.dto.UserDTO;
+import com.o1b4.serverquota.dto.request.InvitationDTO;
 import com.o1b4.serverquota.dto.request.RegisterMemberDTO;
 import com.o1b4.serverquota.dto.response.MainTeamDTO;
 import com.o1b4.serverquota.exception.CustomApiException;
@@ -109,6 +110,26 @@ public class UserController {
         try {
             userService.UserInfoChange(userId, ChangedMemberInfo);
             responseMessage.setMessage("회원 정보 수정 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
+    }
+
+    @PutMapping("/role/{userId}")
+    public ResponseEntity<ResponseMessage> ModifyUserRole(@PathVariable long userId, @RequestBody InvitationDTO RoleInfo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            teamService.ModifyUserRole(userId, RoleInfo);
+            responseMessage.setMessage("회원 역할 수정 성공");
             responseMessage.setHttpStatus(HttpStatus.OK);
 
         } catch (CustomApiException e) {

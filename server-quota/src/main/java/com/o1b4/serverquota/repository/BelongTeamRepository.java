@@ -14,4 +14,6 @@ public interface BelongTeamRepository extends JpaRepository<BelongTeam, Long> {
     List<BelongTeam> findByTeamId(long teamId);
 
     List<BelongTeam> findByUserId(long userId);
+
+    Optional<BelongTeam> findBelongTeamByTeamIdAndUserId(long teamId, long userId);
 }

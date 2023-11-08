@@ -32,5 +32,9 @@ public class BelongTeam implements Serializable{
         this.teamId = teamId;
         this.userRole = userRole;
     }
+
+    public void modifyRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
 }
 

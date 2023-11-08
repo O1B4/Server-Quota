@@ -156,4 +156,16 @@ public class TeamService {
 
             return belong.getUserRole();
     }
+
+    @Transactional
+    public void ModifyUserRole(long userId, InvitationDTO roleInfo) {
+        BelongTeam belongTeam = belongTeamRepository.findBelongTeamByTeamIdAndUserId(roleInfo.getTeamId(), userId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 ID의 회원은 팀에 소속 되어있지 않습니다."));
+
+        UserRole role = roleInfo.isAdvisor() ? UserRole.ADVISOR : UserRole.MEMBER;
+
+        belongTeam.modifyRole(role);
+
+        belongTeamRepository.save(belongTeam);
+    }
 }
