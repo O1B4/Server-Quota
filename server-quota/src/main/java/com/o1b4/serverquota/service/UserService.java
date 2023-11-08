@@ -48,4 +48,19 @@ public class UserService {
 
         userRepository.save(registerUser);
     }
+
+    @Transactional
+    public void UserInfoChange(long userId, RegisterMemberDTO changedMemberInfo) {
+
+       User foundUser = userRepository.findUserByUserId(userId)
+               .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "수정하려는 해당 회원은 없습니다."));
+
+        foundUser.ChangeUserInfo(
+                changedMemberInfo.getUserEmail(),
+                changedMemberInfo.getUserName(),
+                changedMemberInfo.getUserProfileImage()
+        );
+
+        userRepository.save(foundUser);
+    }
 }

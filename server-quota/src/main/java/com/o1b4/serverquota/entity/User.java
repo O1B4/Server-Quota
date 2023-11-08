@@ -18,10 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "useremail", length = 100, nullable = false)
+    @Column(name = "useremail", length = 100)
     private String userEmail;
 
-    @Column(name = "username", length = 100, nullable = false)
+    @Column(name = "username", length = 100)
     private String userName;
 
     @Column(name = "userprofileimage")
@@ -32,6 +32,12 @@ public class User {
 
     @Builder
     public User(String userEmail, String userName, String userProfileImage) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userProfileImage = userProfileImage;
+    }
+
+    public void ChangeUserInfo(String userEmail, String userName, String userProfileImage) {
         this.userEmail = userEmail;
         this.userName = userName;
         this.userProfileImage = userProfileImage;

@@ -98,4 +98,24 @@ public class UserController {
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
     }
+
+    @PatchMapping("{userId}")
+    public ResponseEntity<ResponseMessage> UserInfoChange(@PathVariable long userId, @RequestBody RegisterMemberDTO ChangedMemberInfo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            userService.UserInfoChange(userId, ChangedMemberInfo);
+            responseMessage.setMessage("회원 정보 수정 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
+    }
 }
