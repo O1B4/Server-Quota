@@ -41,4 +41,11 @@ public class Team {
         this.teamDescription = teamDescription;
         this.belongTeams = belongTeams;
     }
+
+    public void modifyTeam(String teamName, String teamProfileImage, String teamUrl, String teamDescription) {
+        this.teamName = teamName;
+        this.teamProfileImage = teamProfileImage;
+        this.teamUrl = teamUrl;
+        this.teamDescription = teamDescription;
+    }
 }
