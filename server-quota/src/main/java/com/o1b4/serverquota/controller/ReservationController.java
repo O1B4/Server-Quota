@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -41,4 +42,20 @@ public class ReservationController {
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<ResponseMessage> findReservations(@PathVariable long roomId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        List<ReservationDTO> reservations  = reservationService.findReservations(roomId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservations", reservations);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
 }

@@ -22,10 +22,10 @@ public class Reservation {
     private Long reservId;
 
     @Column(name = "roomid")
-    private long roomid;
+    private long roomId;
 
     @Column(name = "userid")
-    private long userid;
+    private long userId;
 
     @Column(name = "reservdate", nullable = false)
     private LocalDate reservDate;
