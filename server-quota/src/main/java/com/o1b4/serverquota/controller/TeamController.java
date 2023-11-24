@@ -86,4 +86,20 @@ public class TeamController {
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
 
+    // teamId로 teamUrl 불러오기
+    @GetMapping("/link/{teamId}")
+    public ResponseEntity<ResponseMessage> findTeamUrl(@PathVariable long teamId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        String team = teamService.findTeamUrl(teamId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("teamUrl", team);
+
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
 }
