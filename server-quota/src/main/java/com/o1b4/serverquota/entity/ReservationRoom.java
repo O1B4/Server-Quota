@@ -5,26 +5,20 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-enum DurationKind {
-    HOUR,
-    MINUTE
-}
-
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "reservationroom")
 public class ReservationRoom {
 
     @Id
     @Column(name = "roomid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
-    @ManyToOne
-    @JoinColumn(name = "userid")
-    private User user;
+    @Column(name = "userid")
+    private Long userId;
 
     @Column(name = "teamid")
     private Long teamId;
@@ -57,4 +51,19 @@ public class ReservationRoom {
     @Column(name = "roomurl", length = 30, nullable = false)
     private String roomUrl = "meeting" + (int)(Math.random() * 99 + 1);
 
+    @Builder
+    public ReservationRoom(Long roomId, Long userId, Long teamId, String roomName, String meetingKind, String meetingLocation, LocalDate rangeStart, LocalDate rangeEnd, DurationKind durationKind, int duration, String roomDescription, String roomUrl) {
+        this.roomId = roomId;
+        this.userId = userId;
+        this.teamId = teamId;
+        this.roomName = roomName;
+        this.meetingKind = meetingKind;
+        this.meetingLocation = meetingLocation;
+        this.rangeStart = rangeStart;
+        this.rangeEnd = rangeEnd;
+        this.durationKind = durationKind;
+        this.duration = duration;
+        this.roomDescription = roomDescription;
+        this.roomUrl = roomUrl;
+    }
 }

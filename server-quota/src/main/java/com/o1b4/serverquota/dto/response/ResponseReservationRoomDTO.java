@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ReservationRoomDTO {
+public class ResponseReservationRoomDTO {
 
     private String roomName;
 
@@ -25,7 +25,7 @@ public class ReservationRoomDTO {
 
     private int duration;
 
-    private List<AvailableTimeDTO> availableTimeDTOS;
+    private List<AvailableTimeDTO> availableTime;
 
     private List<LocalDate> excludeDate;
 
@@ -34,7 +34,7 @@ public class ReservationRoomDTO {
     private String roomUrl;
 
     @Builder
-    public ReservationRoomDTO(String roomName, String meetingKind, String meetingLocation, LocalDate rangeStart, LocalDate rangeEnd, String durationKind, int duration, List<AvailableTimeDTO> availableTimeDTOS, List<LocalDate> excludeDate, String roomDescription, String roomUrl) {
+    public ResponseReservationRoomDTO(String roomName, String meetingKind, String meetingLocation, LocalDate rangeStart, LocalDate rangeEnd, String durationKind, int duration, List<AvailableTimeDTO> availableTime, List<LocalDate> excludeDate, String roomDescription, String roomUrl) {
         this.roomName = roomName;
         this.meetingKind = meetingKind;
         this.meetingLocation = meetingLocation;
@@ -42,7 +42,7 @@ public class ReservationRoomDTO {
         this.rangeEnd = rangeEnd;
         this.durationKind = durationKind;
         this.duration = duration;
-        this.availableTimeDTOS = availableTimeDTOS;
+        this.availableTime = availableTime;
         this.excludeDate = excludeDate;
         this.roomDescription = roomDescription;
         this.roomUrl = roomUrl;

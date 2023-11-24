@@ -1,9 +1,6 @@
 package com.o1b4.serverquota.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +12,6 @@ import java.time.LocalTime;
 @ToString
 @NoArgsConstructor
 @IdClass(AvailableTimeId.class)
-@AllArgsConstructor
 public class AvailableTime implements Serializable {
 
     @Id
@@ -32,4 +28,11 @@ public class AvailableTime implements Serializable {
     @Column(name = "endtime", nullable = false)
     private LocalTime endTime = LocalTime.of(19, 0);
 
+    @Builder
+    public AvailableTime(long roomId, int wDay, LocalTime startTime, LocalTime endTime) {
+        this.roomId = roomId;
+        this.wDay = wDay;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }
