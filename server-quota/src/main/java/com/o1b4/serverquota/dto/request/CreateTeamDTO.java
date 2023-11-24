@@ -1,4 +1,4 @@
-package com.o1b4.serverquota.dto;
+package com.o1b4.serverquota.dto.request;
 
 import lombok.*;
 
@@ -7,11 +7,12 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class TeamDTO {
-
-    private Long teamId;
+public class CreateTeamDTO {
 
     private String teamName;
+
+    // 팀을 만든 사람
+    private long userId;
 
     private String teamProfileImage;
 

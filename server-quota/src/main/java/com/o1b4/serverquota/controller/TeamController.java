@@ -1,7 +1,11 @@
 package com.o1b4.serverquota.controller;
 
+import com.o1b4.serverquota.dto.request.CreateTeamDTO;
+import com.o1b4.serverquota.dto.request.RegisterMemberDTO;
 import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
+import com.o1b4.serverquota.entity.Team;
+import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.TeamService;
 import org.springframework.http.HttpHeaders;
@@ -100,6 +104,26 @@ public class TeamController {
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<ResponseMessage> CreateTeam(@RequestBody CreateTeamDTO team) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            teamService.CreateTeam(team);
+            responseMessage.setMessage("팀 생성 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
     }
 
 }

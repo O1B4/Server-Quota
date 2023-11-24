@@ -1,21 +1,14 @@
 package com.o1b4.serverquota.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-enum UserRole {
-    ADMIN,
-    ADVISOR,
-    MEMBER
-}
-
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @IdClass(BelongTeamId.class)
 @Table(name = "belongteam")
@@ -31,7 +24,13 @@ public class BelongTeam implements Serializable{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "userrole", length = 20, nullable = false)
-    private UserRole userRole = UserRole.ADMIN;
+    private  UserRole userRole;
 
+    @Builder
+    public BelongTeam(Long userId, Long teamId, UserRole userRole) {
+        this.userId = userId;
+        this.teamId = teamId;
+        this.userRole = userRole;
+    }
 }
 

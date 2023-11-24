@@ -1,16 +1,19 @@
 package com.o1b4.serverquota.service;
 
+import com.o1b4.serverquota.dto.request.CreateTeamDTO;
 import com.o1b4.serverquota.dto.response.MainTeamDTO;
 import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
 import com.o1b4.serverquota.entity.BelongTeam;
 import com.o1b4.serverquota.entity.Team;
+import com.o1b4.serverquota.entity.UserRole;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.repository.BelongTeamRepository;
 import com.o1b4.serverquota.repository.TeamRepository;
 import com.o1b4.serverquota.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,5 +111,27 @@ public class TeamService {
                 .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀은 조회되지 않습니다."));
 
         return team.getTeamUrl();
+    }
+
+    @Transactional
+    public void CreateTeam(CreateTeamDTO team) {
+
+        Team teamBuild = Team.builder()
+                .teamName(team.getTeamName())
+                .teamProfileImage(team.getTeamProfileImage())
+                .teamUrl(team.getTeamUrl())
+                .teamDescription(team.getTeamDescription())
+                .build();
+
+        Team Createdteam = teamRepository.save(teamBuild);
+
+        // 만든 사람 admin 지정
+        BelongTeam belongTeam = BelongTeam.builder()
+                .teamId(Createdteam.getTeamId())
+                .userId(team.getUserId())
+                .userRole(UserRole.ADMIN)
+                .build();
+
+        belongTeamRepository.save(belongTeam);
     }
 }
