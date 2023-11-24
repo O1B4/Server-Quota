@@ -4,6 +4,7 @@ import com.o1b4.serverquota.dto.request.RequestReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.MainReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.ResponseReservationRoomDTO;
 import com.o1b4.serverquota.dto.response.SimpleReservationRoomDTO;
+import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.RoomService;
 import org.springframework.http.HttpHeaders;
@@ -89,7 +90,6 @@ public class RoomController {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ResponseMessage> CreateReserveRoom(@RequestBody RequestReservationRoomDTO room) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
@@ -102,5 +102,27 @@ public class RoomController {
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 룸 생성 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/{roomId}")
+    public ResponseEntity<ResponseMessage> modifyRoom(@PathVariable long roomId, @RequestBody RequestReservationRoomDTO room) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            roomService.modifyRoom(roomId, room);
+            responseMessage.setMessage("예약 룸 수정 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
     }
 }
