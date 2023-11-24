@@ -16,4 +16,8 @@ public class InvitationDTO {
     // 원래는 isAdvisor 였으나 @Getter 문제로 is 삭제
     private boolean advisor;
 
+    public InvitationDTO(long teamId, boolean advisor) {
+        this.teamId = teamId;
+        this.advisor = advisor;
+    }
 }
