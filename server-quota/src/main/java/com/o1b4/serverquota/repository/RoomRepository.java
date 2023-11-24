@@ -12,4 +12,6 @@ public interface RoomRepository extends JpaRepository<ReservationRoom, Long> {
     List<ReservationRoom> findReservationRoomsByTeamId(long teamId);
 
     ReservationRoom findReservationRoomByRoomId(long roomId);
+
+    Boolean existsByRoomUrl(String roomUrl);
 }

@@ -87,4 +87,9 @@ public class RoomService {
                 .roomUrl(room.getRoomUrl())
                 .build();
     }
+
+    public boolean checkRoomUrl(String roomUrl) {
+
+        return !roomRepository.existsByRoomUrl(roomUrl);
+    }
 }
