@@ -1,9 +1,6 @@
 package com.o1b4.serverquota.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,12 +10,12 @@ import java.time.LocalTime;
 @Getter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "reservation")
 public class Reservation {
 
     @Id
     @Column(name = "reservid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservId;
 
     @Column(name = "roomid")
@@ -42,4 +39,15 @@ public class Reservation {
     @Column(name = "reservmemo", length = 255)
     private String reservMemo;
 
+    @Builder
+    public Reservation(Long reservId, long roomId, long userId, LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
+        this.reservId = reservId;
+        this.roomId = roomId;
+        this.userId = userId;
+        this.reservDate = reservDate;
+        this.reservTime = reservTime;
+        this.reservName = reservName;
+        this.reservEmail = reservEmail;
+        this.reservMemo = reservMemo;
+    }
 }
