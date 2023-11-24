@@ -148,4 +148,26 @@ public class TeamController {
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
     }
+
+    @PutMapping("/{teamId}")
+    public ResponseEntity<ResponseMessage> modifyTeam(@PathVariable long teamId, @RequestBody CreateTeamDTO teamInfo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            teamService.modifyTeam(teamId, teamInfo);
+            responseMessage.setMessage("팀 수정 성공");
+            responseMessage.setHttpStatus(HttpStatus.OK);
+
+        } catch (CustomApiException e) {
+            responseMessage.setMessage(e.getMessage());
+            responseMessage.setHttpStatus(e.getHttpStatus());
+        }
+
+        return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
+    }
 }

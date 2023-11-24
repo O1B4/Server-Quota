@@ -168,4 +168,14 @@ public class TeamService {
 
         belongTeamRepository.save(belongTeam);
     }
+
+    @Transactional
+    public void modifyTeam(long teamId, CreateTeamDTO teamInfo) {
+        Team team = teamRepository.findTeamByTeamId(teamId)
+                .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀은 존재하지 않습니다."));
+
+        team.modifyTeam(teamInfo.getTeamName(), teamInfo.getTeamProfileImage(), teamInfo.getTeamUrl(), teamInfo.getTeamDescription());
+
+        teamRepository.save(team);
+    }
 }

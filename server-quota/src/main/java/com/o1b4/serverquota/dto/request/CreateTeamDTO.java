@@ -19,4 +19,11 @@ public class CreateTeamDTO {
     private String teamUrl;
 
     private String teamDescription;
+
+    public CreateTeamDTO(String teamName, String teamProfileImage, String teamUrl, String teamDescription) {
+        this.teamName = teamName;
+        this.teamProfileImage = teamProfileImage;
+        this.teamUrl = teamUrl;
+        this.teamDescription = teamDescription;
+    }
 }
