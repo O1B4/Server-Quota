@@ -1,36 +1,45 @@
 package com.o1b4.serverquota.entity;
 
-import lombok.Getter;
-import lombok.ToString;
+import com.o1b4.serverquota.dto.TokenDTO;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "token")
 public class Token {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenId;
 
-    @OneToOne
-    @JoinColumn(name = "userid")
-    private User user;
+    @Column
+    private Long userId;
 
-    @Column(name = "refreshtoken", length = 65535, nullable = false)
+    @Column(name = "accesstoken", nullable = false)
+    private String accessToken;
+
+    @Column(name = "refreshtoken")
     private String refreshToken;
 
     @Column(name = "exprationdate", nullable = false)
-    private LocalDate expirationDate;
+    private String expiresIn;
 
-    public Token() {
+    public Token(TokenDTO tokenDTO) {
+        this.userId = tokenDTO.getUserId();
+        this.accessToken = tokenDTO.getAccessToken();
+        this.refreshToken = tokenDTO.getRefreshToken();
+        this.expiresIn = tokenDTO.getExpiresIn();
+        // User 정보는 필요에 따라 설정
     }
 
-    public Token(Long tokenId, User user, String refreshToken, LocalDate expirationDate) {
-        this.tokenId = tokenId;
-        this.user = user;
+    @Builder
+    public Token(Long userId, String accessToken, String refreshToken, String expiresIn) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.expirationDate = expirationDate;
+        this.expiresIn = expiresIn;
     }
 }
