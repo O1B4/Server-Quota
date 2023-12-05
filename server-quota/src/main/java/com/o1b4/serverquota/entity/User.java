@@ -1,5 +1,7 @@
 package com.o1b4.serverquota.entity;
 
+import com.o1b4.serverquota.dto.UserDTO;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +17,7 @@ public class User {
 
     @Id
     @Column(name = "userid")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(name = "useremail", length = 100)
@@ -30,6 +32,11 @@ public class User {
     @OneToMany(mappedBy = "userId")
     private List<BelongTeam> belongTeams;
 
+    public User(UserDTO userDTO) {
+        this.userEmail = userDTO.getUserEmail();
+        this.userName = userDTO.getUserName();
+        this.userProfileImage = userDTO.getUserProfileImage();
+    }
     @Builder
     public User(String userEmail, String userName, String userProfileImage) {
         this.userEmail = userEmail;
