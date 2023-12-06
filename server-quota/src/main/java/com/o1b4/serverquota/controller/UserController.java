@@ -44,7 +44,7 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("team", myTeam);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user", user);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -75,7 +75,7 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("UserExists", UserExists);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -90,11 +90,11 @@ public class UserController {
         try {
             userService.RegisterMember(registerMember);
             responseMessage.setMessage("회원 가입 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
@@ -110,11 +110,11 @@ public class UserController {
         try {
             userService.UserInfoChange(userId, ChangedMemberInfo);
             responseMessage.setMessage("회원 정보 수정 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
@@ -130,11 +130,11 @@ public class UserController {
         try {
             teamService.ModifyUserRole(userId, RoleInfo);
             responseMessage.setMessage("회원 역할 수정 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());

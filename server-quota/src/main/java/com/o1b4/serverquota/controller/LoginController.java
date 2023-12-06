@@ -30,7 +30,7 @@ public class LoginController {
 
         Map<String, Object> responseMap = loginService.socialLogin(code, registrationId);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "로그인 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "로그인 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }

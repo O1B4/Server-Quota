@@ -13,7 +13,7 @@ import java.util.Map;
 // API response Message
 public class ResponseMessage {
 
-    private HttpStatus httpStatus;
+    private int httpStatus;
 
     private String message;
 

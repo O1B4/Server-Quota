@@ -39,7 +39,7 @@ public class TeamController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("teamMembers", teamMembers);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class TeamController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("Teams", Teams);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class TeamController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isUrlUsable", isUrlUsable);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -85,7 +85,7 @@ public class TeamController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("team", team);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -101,7 +101,7 @@ public class TeamController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("teamUrl", team);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -116,11 +116,11 @@ public class TeamController {
         try {
             teamService.CreateTeam(team);
             responseMessage.setMessage("팀 생성 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
@@ -138,13 +138,13 @@ public class TeamController {
         try {
             String role = String.valueOf(teamService.teamInvitation(invitation));
             responseMessage.setMessage("유저 초대 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
             responseMap.put("userRole", role);
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
@@ -162,11 +162,11 @@ public class TeamController {
         try {
             teamService.modifyTeam(teamId, teamInfo);
             responseMessage.setMessage("팀 수정 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());

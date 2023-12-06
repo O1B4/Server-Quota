@@ -36,7 +36,7 @@ public class ReservationController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservation", reservation);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -51,7 +51,7 @@ public class ReservationController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservations", reservations);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -67,7 +67,7 @@ public class ReservationController {
 
         reservationService.CreateReservation(reservation);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 생성 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "예약 생성 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -81,7 +81,7 @@ public class ReservationController {
 
         reservationService.modifyReservation(reservId, reservation);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 수정 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "예약 수정 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
