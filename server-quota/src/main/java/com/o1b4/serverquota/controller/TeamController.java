@@ -3,6 +3,7 @@ package com.o1b4.serverquota.controller;
 import com.o1b4.serverquota.dto.request.CreateTeamDTO;
 import com.o1b4.serverquota.dto.request.InvitationDTO;
 import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
+import com.o1b4.serverquota.dto.response.TeamDTO;
 import com.o1b4.serverquota.dto.response.TeamMemberDTO;
 import com.o1b4.serverquota.exception.CustomApiException;
 import com.o1b4.serverquota.response.ResponseMessage;
@@ -48,7 +49,7 @@ public class TeamController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
-        List<String> Teams = teamService.findTeamsByUserId(userId);
+        List<TeamDTO> Teams = teamService.findTeamsByUserId(userId);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("Teams", Teams);

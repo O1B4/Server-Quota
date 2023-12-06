@@ -2,10 +2,7 @@ package com.o1b4.serverquota.service;
 
 import com.o1b4.serverquota.dto.request.CreateTeamDTO;
 import com.o1b4.serverquota.dto.request.InvitationDTO;
-import com.o1b4.serverquota.dto.response.InvitedUserDTO;
-import com.o1b4.serverquota.dto.response.MainTeamDTO;
-import com.o1b4.serverquota.dto.response.RolelessMainTeamDTO;
-import com.o1b4.serverquota.dto.response.TeamMemberDTO;
+import com.o1b4.serverquota.dto.response.*;
 import com.o1b4.serverquota.entity.BelongTeam;
 import com.o1b4.serverquota.entity.Team;
 import com.o1b4.serverquota.entity.User;
@@ -73,21 +70,21 @@ public class TeamService {
                 .collect(Collectors.toList());
     }
 
-    public List<String> findTeamsByUserId(long userId) {
+    public List<TeamDTO> findTeamsByUserId(long userId) {
 
         List<BelongTeam> belongTeams = belongTeamRepository.findByUserId(userId);
 
-        // userID에 해당하는 Team의 id list
-        List<Long> teamIdList = belongTeams.stream()
-                .map(BelongTeam::getTeamId)
-                .collect(Collectors.toList());
-
-        // 팀 이름 리스트
-        return teamIdList.stream()
+        // 팀 id, 이름 리스트
+        return belongTeams.stream()
                 .map(
-                        teamId -> teamRepository.findTeamByTeamId(teamId)
+                        belongTeam -> TeamDTO.builder()
+                        .teamId(belongTeam.getTeamId())
+                        .teamName(
+                                teamRepository.findTeamByTeamId(belongTeam.getTeamId())
                                 .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀을 찾지 못했습니다."))
                                 .getTeamName()
+                        )
+                        .build()
                 )
                 .collect(Collectors.toList());
     }
