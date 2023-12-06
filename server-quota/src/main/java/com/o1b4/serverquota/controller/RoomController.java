@@ -39,7 +39,7 @@ public class RoomController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservationRooms", rooms);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class RoomController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservationRoom", room);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class RoomController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isUrlUsable", isUrlUsable);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class RoomController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservationRoom", room);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "조회 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "조회 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -99,7 +99,7 @@ public class RoomController {
 
         roomService.CreateReserveRoom(room);
 
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "예약 룸 생성 성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK.value(), "예약 룸 생성 성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -116,11 +116,11 @@ public class RoomController {
         try {
             roomService.modifyRoom(roomId, room);
             responseMessage.setMessage("예약 룸 수정 성공");
-            responseMessage.setHttpStatus(HttpStatus.OK);
+            responseMessage.setHttpStatus(HttpStatus.OK.value());
 
         } catch (CustomApiException e) {
             responseMessage.setMessage(e.getMessage());
-            responseMessage.setHttpStatus(e.getHttpStatus());
+            responseMessage.setHttpStatus(e.getHttpStatus().value());
         }
 
         return new ResponseEntity<>(responseMessage, headers, responseMessage.getHttpStatus());
