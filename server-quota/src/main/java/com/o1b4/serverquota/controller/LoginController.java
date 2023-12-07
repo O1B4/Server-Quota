@@ -1,6 +1,5 @@
 package com.o1b4.serverquota.controller;
 
-//import com.o1b4.serverquota.google.GoogleOAuth;
 import com.o1b4.serverquota.response.ResponseMessage;
 import com.o1b4.serverquota.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-        import java.nio.charset.StandardCharsets;
-        import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @RestController
 @Slf4j

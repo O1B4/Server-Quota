@@ -40,19 +40,31 @@ public class LoginService {
 
         boolean isUser = userRepository.existsByUserEmail(userInfo.getUserEmail());
 
-        if (isUser) {
+        User savedUser;
+
+        if (!isUser) {
             log.info("회원가입 필요한 유저");
             User user = new User(userInfo);
-            userRepository.save(user);
+            savedUser = userRepository.save(user);
+        } else {
+            log.info("이미 가입된 유저");
+            savedUser = userRepository.findByUserEmail(userInfo.getUserEmail());
         }
-        Token token = new Token(tokenInfo);
-        tokenRepository.save(token);
 
-        Token userToken = tokenRepository.findTokenByUserId(userInfo.getUserId());
+        Token token = Token.builder()
+                .userId(savedUser.getUserId())
+                .accessToken(tokenInfo.getAccessToken())
+                .expiresIn(tokenInfo.getExpiresIn())
+                .refreshToken(tokenInfo.getRefreshToken())
+                .build();
+
+        Token savedToken = tokenRepository.save(token);
+        log.info("savedToken : {} ", savedToken);
+
 
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("userInfo", userInfo);
-        userMap.put("tokenInfo", userToken);
+        userMap.put("user", savedUser);
+        userMap.put("token", savedToken);
         return userMap;
     }
 
@@ -102,13 +114,15 @@ public class LoginService {
         JsonNode userResourceNode = restTemplate.exchange(resourceUri, HttpMethod.GET, entity, JsonNode.class).getBody();
 
         log.info("userResource 정보 : {}", userResourceNode);
+        log.info("id : {}", userResourceNode.get("id").asText());
 
         UserDTO userInfo = UserDTO.builder()
-                .userId(userResourceNode.get("id").asLong())
                 .userName(userResourceNode.get("name").asText())
                 .userEmail(userResourceNode.get("email").asText())
                 .userProfileImage(userResourceNode.get("picture").asText())
                 .build();
+
+        log.info("userInfo : {}", userInfo);
 
         return userInfo;
     }
