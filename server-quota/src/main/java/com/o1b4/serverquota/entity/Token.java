@@ -25,19 +25,12 @@ public class Token {
     @Column(name = "refreshtoken")
     private String refreshToken;
 
-    @Column(name = "exprationdate", nullable = false)
+    @Column(name = "expriresin", nullable = false)
     private String expiresIn;
-
-    public Token(TokenDTO tokenDTO) {
-        this.userId = tokenDTO.getUserId();
-        this.accessToken = tokenDTO.getAccessToken();
-        this.refreshToken = tokenDTO.getRefreshToken();
-        this.expiresIn = tokenDTO.getExpiresIn();
-        // User 정보는 필요에 따라 설정
-    }
 
     @Builder
     public Token(Long userId, String accessToken, String refreshToken, String expiresIn) {
+        this.userId = userId;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
