@@ -8,12 +8,15 @@ import lombok.*;
 @NoArgsConstructor
 public class TeamMemberDTO {
 
+    private Long userId;
+
     private String userName;
 
     private String userProfileImage;
 
     @Builder
-    public TeamMemberDTO(String userName, String userProfileImage) {
+    public TeamMemberDTO(Long userId, String userName, String userProfileImage) {
+        this.userId = userId;
         this.userName = userName;
         this.userProfileImage = userProfileImage;
     }
