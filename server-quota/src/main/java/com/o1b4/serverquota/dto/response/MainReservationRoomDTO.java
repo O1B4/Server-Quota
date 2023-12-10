@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @ToString
 public class MainReservationRoomDTO {
 
+    private Long roomId;
+
     private String roomName;
 
     private String durationKind;
@@ -30,7 +32,8 @@ public class MainReservationRoomDTO {
     private String roomUrl;
 
     @Builder
-    public MainReservationRoomDTO(String roomName, String durationKind, int duration, String meetingKind, String userName, String userProfileImage, LocalDate rangeStart, LocalDate rangeEnd, String roomUrl) {
+    public MainReservationRoomDTO(Long roomId, String roomName, String durationKind, int duration, String meetingKind, String userName, String userProfileImage, LocalDate rangeStart, LocalDate rangeEnd, String roomUrl) {
+        this.roomId = roomId;
         this.roomName = roomName;
         this.durationKind = durationKind;
         this.duration = duration;
