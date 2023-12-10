@@ -51,6 +51,7 @@ public class ReservationService {
         return reservations.stream()
                 .map(
                         reservation -> ReservationDTO.builder()
+                                .reservId(reservation.getReservId())
                                 .reservDate(reservation.getReservDate())
                                 .reservTime(reservation.getReservTime())
                                 .reservEmail(reservation.getReservEmail())
