@@ -8,7 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 public class RolelessMainTeamDTO {
 
-    // main page의 이름, 프로필 사진, url
+    // main page의 이름, 프로필 사진, url, teamID
+    private Long teamId;
 
     private String teamName;
 
@@ -17,7 +18,8 @@ public class RolelessMainTeamDTO {
     private String teamUrl;
 
     @Builder
-    public RolelessMainTeamDTO(String teamName, String teamProfileImage, String teamUrl, String role) {
+    public RolelessMainTeamDTO(Long teamId, String teamName, String teamProfileImage, String teamUrl) {
+        this.teamId = teamId;
         this.teamName = teamName;
         this.teamProfileImage = teamProfileImage;
         this.teamUrl = teamUrl;

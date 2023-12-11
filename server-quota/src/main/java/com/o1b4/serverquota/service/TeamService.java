@@ -100,6 +100,7 @@ public class TeamService {
                 .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "해당 팀은 조회되지 않습니다."));
 
         return RolelessMainTeamDTO.builder()
+                .teamId(team.getTeamId())
                 .teamName(team.getTeamName())
                 .teamProfileImage(team.getTeamProfileImage())
                 .teamUrl(team.getTeamUrl())
