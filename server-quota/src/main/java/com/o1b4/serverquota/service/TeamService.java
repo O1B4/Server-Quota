@@ -55,6 +55,7 @@ public class TeamService {
         return belongTeams.stream()
                 .map(
                         belongTeam -> TeamMemberDTO.builder()
+                        .userId(belongTeam.getUserId())
                         .userName(
                                 userRepository.findUserByUserId(belongTeam.getUserId())
                                 .orElseThrow(() -> new CustomApiException(HttpStatus.NOT_FOUND, "회원을 조회할 수 없습니다."))
