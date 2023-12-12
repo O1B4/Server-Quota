@@ -21,7 +21,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/login/oauth2/code/{registrationId}")
+    @PostMapping("/login/oauth2/code/{registrationId}")
     public ResponseEntity<ResponseMessage> googleLogin(@RequestParam String code, @PathVariable String registrationId) {
         log.info("google login 진행");
         HttpHeaders headers = new HttpHeaders();
