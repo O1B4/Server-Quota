@@ -11,6 +11,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class ReservationDTO {
 
+    private Long reservId;
+
     private LocalDate reservDate;
 
     private LocalTime reservTime;
@@ -24,10 +26,11 @@ public class ReservationDTO {
     private String reservMemo;
 
     @Builder
-    public ReservationDTO(String userName, LocalDate reservDate, LocalTime reservTime, String reservName, String reservEmail, String reservMemo) {
-        this.userName = userName;
+    public ReservationDTO(Long reservId, LocalDate reservDate, LocalTime reservTime, String userName, String reservName, String reservEmail, String reservMemo) {
+        this.reservId = reservId;
         this.reservDate = reservDate;
         this.reservTime = reservTime;
+        this.userName = userName;
         this.reservName = reservName;
         this.reservEmail = reservEmail;
         this.reservMemo = reservMemo;
