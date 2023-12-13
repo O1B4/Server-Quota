@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @Slf4j
 public class LoginController {
