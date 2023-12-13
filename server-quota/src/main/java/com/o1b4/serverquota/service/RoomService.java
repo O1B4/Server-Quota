@@ -42,6 +42,7 @@ public class RoomService {
         // list에 해당하는 room들 DTO 매핑
         return rooms.stream()
                 .map(room -> MainReservationRoomDTO.builder()
+                        .roomId(room.getRoomId())
                         .roomName(room.getRoomName())
                         .durationKind(String.valueOf(room.getDurationKind()))
                         .duration(room.getDuration())
